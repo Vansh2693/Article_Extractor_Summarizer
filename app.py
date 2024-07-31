@@ -8,8 +8,7 @@ from nlp_utils import summarize_text, nlp_pipeline
 from models import db, User, Summary
 import os
 import base64
-from bs4 import BeautifulSoup
-import requests
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
