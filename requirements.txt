@@ -1,0 +1,11 @@
+Flask
+Flask-SQLAlchemy
+Flask-Login
+flask-bcrypt
+transformers
+torch
+google-cloud-texttospeech
+langdetect
+deep-translator
+Flask-Migrate
+flask-login 

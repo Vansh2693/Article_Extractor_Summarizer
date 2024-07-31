@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<h1>Welcome {{ current_user.username }}!</h1>
+
+<h2>Generate Summary</h2>
+<form method="POST" action="{{ url_for('summary') }}">
+    <textarea name="text" rows="5" required></textarea>
+    <label for="language">Select Language:</label>
+    <select name="language" id="language" required>
+        {% for option in language_options %}
+            <option value="{{ option.id }}">{{ option.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Generate Summary</button>
+</form>
+
+<h2>Previous Summaries</h2>
+<ul>
+    {% for summary in summaries %}
+        <li>
+            <strong>Original Text:</strong> {{ summary.original_text }}<br>
+            <strong>Summary:</strong> {{ summary.summary_text }}<br>
+            <strong>Translated Text:</strong> {{ summary.translated_text }}<br>
+            {% if summary.audio_content %}
+                <strong>Audio:</strong> 
+                <audio controls>
+                    <source src="{{ url_for('audio', filename=summary.audio_content) }}" type="audio/mp3">
+                    Your browser does not support the audio element.
+                </audio>
+            {% else %}
+                <strong>Audio:</strong> No audio available
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
