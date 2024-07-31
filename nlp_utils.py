@@ -9,7 +9,7 @@ import hashlib
 import concurrent.futures
 
 # Set the path for Google Cloud service account credentials
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "article-summarization-427020-11375faf852c.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "basic-cabinet-425722-c0-011804de4ab6.json"
 
 # Initialize the Google Cloud Text-to-Speech client
 client = texttospeech.TextToSpeechClient()

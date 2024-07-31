@@ -6,6 +6,10 @@ from flask_login import LoginManager, login_user, current_user, logout_user, log
 from config import Config
 from nlp_utils import summarize_text, nlp_pipeline
 from models import db, User, Summary
+import os
+import base64
+from bs4 import BeautifulSoup
+import requests
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -19,9 +23,10 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-@app.route('/audio/<filename>')
-def audio(filename):
-    return send_from_directory('static/audio/', filename)
+
+@app.template_filter('b64encode')
+def b64encode_filter(audio_content):
+    return base64.b64encode(audio_content).decode('utf-8')
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -107,7 +112,7 @@ def summary():
         "de": "de-DE-Neural2-A",
         "it": "it-IT-Neural2-A",
         "ja": "ja-JP-Neural2-A",
-        "pt": "pt-BR-Neural2-A",
+        "pt": "pt-BR-Wavenet-A",
         "ru": "ru-RU-Wavenet-A",
         "es": "es-ES-Neural2-A"
     }[target_lang]
@@ -122,6 +127,12 @@ def summary():
 
     flash('Summary and audio have been generated!', 'success')
     return redirect(url_for('home'))
+
+@app.route('/previous_summaries', methods=['GET'])
+@login_required
+def previous_summaries():
+    summaries = Summary.query.filter_by(user_id=current_user.id).all()
+    return render_template('previous_summaries.html', summaries=summaries)
 
 if __name__ == '__main__':
     app.run(debug=True)

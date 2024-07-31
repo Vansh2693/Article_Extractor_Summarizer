@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Previous Summaries{% endblock %}
+{% block content %}
+    <h1>Previous Summaries</h1>
+    <ul class="list-group">
+        {% for summary in summaries %}
+            <li class="list-group-item summary-card">
+                <strong>Original Text:</strong> {{ summary.original_text }}<br>
+                <strong>Summary:</strong> {{ summary.summary_text }}<br>
+                <strong>Translated Text:</strong> {{ summary.translated_text }}<br>
+                <strong>Audio:</strong>
+                <audio controls>
+                    <source src="data:audio/mp3;base64,{{ summary.audio_content | b64encode }}" type="audio/mp3">
+                    Your browser does not support the audio element.
+                </audio>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
